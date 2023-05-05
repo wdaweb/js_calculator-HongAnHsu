@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    body{
+      background-image: url(./images/43af9b45738323.5bc0b5f58a4d6.gif) ;
+      background-repeat: no-repeat;
+      background-size: 100vw 100vh ;
+      /* background-position: center; */
+    }
+    table {
+      width: 600px;
+      height: 800px;
+      margin: auto;
+      table-layout: fixed;
+      border: 3px none #000;
+      border-spacing:20px;
+      user-select: none;
+    }
+    
+    #sad{
+      width: 600px;
+      height: 800px;
+      border: 5px outset #c05a6be4;
+      margin: auto;
+      background: #ff7d93;
+      border-radius: 10% 10% 10% 10%;
+      box-shadow: 10px 10px 10px #231013;
+      /* background: radial-gradient(ellipse 80% 100px, #ffc0cb 10%, #ff6781 50%,  #e63f5b 100%); */
+    }
+    
+    td {
+      border: 5px outset #f24b67;
+      width: 20px;
+      height: 20px;
+      text-align: center;
+      vertical-align: middle;
+      font-size: 30px;
+      font-family: 'Josefin Sans', sans-serif;
+      font-family: 'Noto Sans TC', sans-serif;
+      font-family: 'Press Start 2P', cursive;
+      overflow-y: auto;
+      border-radius: 40px;
+      color: rgb(255, 255, 255);
+      background-color: #ffc0cb;
+      box-shadow: 5px 5px 0px #ff6781, 10px 15px 10px rgba(0, 0, 0, 0.5);
+      cursor:pointer;
+      background: radial-gradient(ellipse 80% 100px, #ffc0cb 10%, #ff6781 50%,  #e63f5b 100%);
+    }
+
+    td:hover{
+      background:#f9ced5 ;
+    }
+
+    td:active{
+      transform: scale(0.9);
+    }
+
+    
+
+    #text {
+      box-shadow: none;
+      background: radial-gradient(ellipse 80% 100px, #d2d2d2 10%, #8e8e8e 50%,  #c3c3c3 100%);
+      border: 5px solid #333;
+      text-align: right;
+      width: 100%;
+      overflow-x: auto;
+      cursor: auto;
+      transform: none;
+    }
+
+    #text::-webkit-scrollbar-track {
+      /* -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); */
+      /* background-color: #ffc0cb; */
+      background: linear-gradient(90deg, transparent 10%, #ffc0cb 10%,#ffc0cb 90%, transparent 90%);
+      cursor: pointer;
+      border-radius: 50px;
+      width: 10px;
+    }
+    /* //捲軸寬度 */
+    #text::-webkit-scrollbar {
+      /* width: 100px; */
+      height: 5px;
+    }
+
+    /* //捲軸本體顏色 */
+    #text::-webkit-scrollbar-thumb {
+      background: linear-gradient(90deg, transparent 10%, #f5506b 10%,#f5506b 90%, transparent 90%);
+      /* background-color: #bb6573; */
+      cursor: pointer;
+      border-radius: 50px;
+      width: 10px;
+    }
+
+    /*  */
+    #text::-webkit-scrollbar-thumb:hover{
+      /* background-color: #ff6781; */
+      background: linear-gradient(90deg, transparent 10%, #ff6781 10%,#ff6781 90%, transparent 90%);
+      cursor: pointer;
+      border-radius: 50px;
+    }
+
+    
+  </style>
+</head>
+
+<body>
+  <div id="sad">
+    
+    <table >
+      <tr>
+        <td colspan="4" id="text" >0</td>
+      </tr>
+      <tr>
+        <td>C</td>
+        <td>/</td>
+        <td>*</td>
+        <td>-</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>8</td>
+        <td>9</td>
+        <td rowspan="2">+</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td rowspan="2">=</td>
+      </tr>
+      <tr>
+        <td colspan="2">0</td>
+        <td>.</td>
+      </tr>
+    </table>
+  </div>
+  <script>
+    const text = document.getElementById('text')
+    const btns = document.querySelectorAll('td:not(#text)')
+
+    for (const btn of btns) {
+      btn.addEventListener('click', () => {
+        const btnText = btn.innerText
+        const operators = ['+', '-', '*', '/']
+        const lastText = text.innerText[text.innerText.length - 1]
+        // 如果按的鍵是 =
+        if (btnText === '=') {
+          // 如果最後一個字不是運算子，才計算
+          if (!operators.includes(lastText)) {
+            text.innerText = eval(text.innerText)
+          }
+        }
+        // 如果按 C，歸 0
+        else if (btnText === 'C') {
+          text.innerText = '0'
+        }
+        // 如果現在是 0，按的是數字，把文字取代
+        else if (text.innerText === '0' && !isNaN(parseInt(btnText))) {
+          text.innerText = btnText
+        }
+        // 如果最後一個字是運算子
+        else if (operators.includes(lastText)) {
+          // 現在按的不是運算子，才加上去
+          if (!operators.includes(btnText)) {
+            text.innerText += btnText
+          }
+        }
+        // 如果按的是 .
+        else if (btnText === '.') {
+          let canAddDot = true
+          // 從最後一個字往前跑迴圈
+          for (let i = text.innerText.length - 1; i >= 0; i--) {
+            // 如果先遇到運算子，一定可以加 .
+            if (operators.includes(text.innerText[i])) break
+            // 如果先遇到 .，一定不能加 .
+            if (text.innerText[i] === '.') {
+              canAddDot = false
+              break
+            }
+          }
+          // 迴圈完可以加才
+          if (canAddDot) text.innerText += '.'
+        }
+        // 如果最後一個字不是運算子，加上去
+        else {
+          text.innerText += btnText
+        }
+      })
+    }
+
+    document.addEventListener('keydown', event => {
+      const btnText = event.key
+      const operators = ['+', '-', '*', '/']
+      const lastText = text.innerText[text.innerText.length - 1]
+      // 如果按的鍵是 =
+      if (btnText === '=' || btnText === 'Enter') {
+        // 如果最後一個字不是運算子，才計算
+        if (!operators.includes(lastText)) {
+          text.innerText = eval(text.innerText)
+        }
+      }
+      // 如果按 C，歸 0
+      else if (btnText === 'c') {
+        text.innerText = '0'
+      }
+      // 如果現在是 0，按的是數字，把文字取代
+      else if (text.innerText === '0' && !isNaN(parseInt(btnText))) {
+        text.innerText = btnText
+      }
+      // 如果最後一個字是運算子
+      else if (operators.includes(lastText)) {
+        // 現在按的不是運算子，且是數字才加上去
+        if (!operators.includes(btnText) && !isNaN(parseInt(btnText))) {
+          text.innerText += btnText
+        }
+      }
+      // 如果最後一個字不是運算子，且按的是數字或運算子，加上去
+      else if (!isNaN(parseInt(btnText)) || operators.includes(btnText)) {
+        text.innerText += btnText
+      }
+      // 如果按的是 .
+      else if (btnText === '.') {
+        let canAddDot = true
+        // 從最後一個字往前跑迴圈
+        for (let i = text.innerText.length - 1; i >= 0; i--) {
+          // 如果先遇到運算子，一定可以加 .
+          if (operators.includes(text.innerText[i])) break
+          // 如果先遇到 .，一定不能加 .
+          if (text.innerText[i] === '.') {
+            canAddDot = false
+            break
+          }
+        }
+        // 迴圈完可以加才
+        if (canAddDot) text.innerText += '.'
+      }
+    })
+
+    
+  </script>
+</body>
+
+</html>
